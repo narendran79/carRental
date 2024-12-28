@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Service</title>
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: rgb(241, 149, 65);
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: rgb(241, 149, 65);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: rgb(238, 129, 30);
+}
+
+#carList {
+    margin-top: 30px;
+    text-align: left;
+}
+
+h2 {
+    margin-top: 20px;
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Car Service</h1>
+
+<form id="addCarForm">
+    <h2>Add Car</h2>
+    <label for="carId">Car ID:</label>
+    <input type="number" id="id" name="id" required>
+    <label for="carName">Car Name:</label>
+    <input type="text" id="carName" name="carName" required>
+    <label for="details">Details:</label>
+    <textarea id="details" name="details" required></textarea>
+    <label for="milege">Milege:</label>
+    <input type="text" id="milege" name="milege" required>
+    <label for="image">Image URL:</label>
+    <input type="text" id="image"  name="image" required>
+    <button type="button" onclick="addCar()">Add Car</button>
+</form>
+
+    <!-- Update Car Form 
+    <form id="updateCarForm">
+        <h2>Update Car</h2>
+        <label for="updateCarId">Car ID:</label>
+        <input type="text" id="updateCarId" required>
+        <label for="updateCarDetails">New Details:</label>
+        <textarea id="updateCarDetails" required></textarea>
+        <button type="button" onclick="updateCar()">Update Car</button>
+    </form>
+    -->
+
+<form id="deleteCarForm">
+    <h2>Delete Car</h2>
+    <label for="deleteCarId">Car ID:</label>
+    <input type="text" id="deleteCarId" name="id" required>
+    <button type="button" onclick="deleteCar()">Delete Car</button>
+</form>
+
+
+<script> 
+    async function addCar() {
+    const form = document.getElementById("addCarForm");
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('/api/rental/create', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert('Car added successfully!');
+            window.location.href = 'service.html';
+        } else {
+            console.error('Failed to add car');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    return false;
+}
+
+   async function deleteCar() {
+    const form = document.getElementById("deleteCarForm");
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('/api/rental/delete', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert('Car deleted successfully!');
+  
+            form.reset();
+        } else {
+            console.error('Failed to delete car');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    return false;
+}
+</script>
+
+</body>
+</html>
